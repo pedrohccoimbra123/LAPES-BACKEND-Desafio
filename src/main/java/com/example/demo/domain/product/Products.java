@@ -12,12 +12,22 @@ import lombok.*;
 @NoArgsConstructor
 public class Products {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String category;
     private String product_name;
     private float price;
     private int unitsold;
+
+    public Products(RequestProduct requestProduct){
+
+        this.category = requestProduct.category();
+        this.product_name = requestProduct.product_name();
+        this.price = requestProduct.price();
+        this.unitsold = requestProduct.unitsold();
+
+    }
+
 
 
 }
