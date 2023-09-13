@@ -9,10 +9,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,11 +32,10 @@ public class ProductControllers {
     }
 
     @PostMapping
-    public ResponseEntity addProduct(@RequestBody @Valid RequestProduct data){
+    public ResponseEntity<String> addProduct(@RequestBody @Valid RequestProduct data){
         Products newProduct = new Products(data);
-        System.out.println(data);
-        repository.save(newProduct);
-        return ResponseEntity.ok().build();
+        String message = "Produto adicionado com sucesso";
+        return ResponseEntity.ok(message);
     }
 
     @PutMapping
@@ -59,30 +58,43 @@ public class ProductControllers {
     @DeleteMapping(value = "/{id}")
     @Transactional
     public ResponseEntity deleteProduct(@PathVariable Integer id) {
-        if (repository.existsById(id)) { // Verifica se o produto com o ID existe
-            repository.deleteById(id); // Exclui o produto pelo ID
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
             return ResponseEntity.ok("Produto com o ID " + id + " foi excluído com sucesso.");
         } else {
             throw new EntityNotFoundException("Produto com o ID " + id + " não encontrado");
         }
     }
 
+
+    //Delete by category
     @DeleteMapping(value = "/category/{category}")
     @Transactional
-    public ResponseEntity deleteProduct(@PathVariable String category) {
-        Optional<Products> optionalProducts = repository.findByCategory(category);
-        if (optionalProducts.isPresent()){
-            Products products = optionalProducts.get();
-            products.setActive(false);
-            return ResponseEntity.ok(products);
+    public ResponseEntity<String> deleteProduct(@PathVariable String category) {
+        int deletedCount = repository.deleteByCategory(category);
 
+        if (deletedCount > 0) {
+            return ResponseEntity.ok("Produtos na categoria " + category + " foram excluídos com sucesso.");
+        } else {
+            throw new EntityNotFoundException("Nenhum produto encontrado na categoria " + category);
         }
+    }
+    @GetMapping("/unitsold/sorted")
+    public ResponseEntity<List<Products>> getProductsSortedByUnitsold() {
+        List<Products> sortedProducts = repository.findByOrderByUnitsoldDesc();
 
-
-        throw new EntityNotFoundException();
+        if (sortedProducts.isEmpty()) {
+            throw new EntityNotFoundException("Nenhum produto vendido encontrado");
+        } else {
+            return ResponseEntity.ok(sortedProducts);
+        }
     }
 
-
-
-
 }
+
+
+
+
+
+
+

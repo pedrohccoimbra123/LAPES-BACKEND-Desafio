@@ -18,7 +18,6 @@ public class Products {
     private String product_name;
     private float price;
     private int unitsold;
-    private Boolean active;
 
 
     public Products(RequestProduct requestProduct){
@@ -27,7 +26,6 @@ public class Products {
         this.product_name = requestProduct.product_name();
         this.price = requestProduct.price();
         this.unitsold = requestProduct.unitsold();
-        this.active = requestProduct.active();
 
     }
 
