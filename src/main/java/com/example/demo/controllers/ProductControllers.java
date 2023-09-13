@@ -23,14 +23,14 @@ public class ProductControllers {
     @Autowired
     private ProductsRepository repository;
 
-
+    //Get all products
     @GetMapping
     public ResponseEntity getAllProducts(){
         //Method to get all the date in Products table.
         var allProducts = repository.findAll();
         return ResponseEntity.ok(allProducts);
     }
-
+    //Add products
     @PostMapping
     public ResponseEntity<String> addProduct(@RequestBody @Valid RequestProduct data){
         Products newProduct = new Products(data);
@@ -38,6 +38,7 @@ public class ProductControllers {
         return ResponseEntity.ok(message);
     }
 
+    //update products
     @PutMapping
     @Transactional
     public ResponseEntity updateProduct(@RequestBody @Valid ResquestProductUpdate data){
@@ -55,6 +56,8 @@ public class ProductControllers {
         }
     }
 
+
+    //Endpoints to delete products by id
     @DeleteMapping(value = "/{id}")
     @Transactional
     public ResponseEntity deleteProduct(@PathVariable Integer id) {
@@ -67,7 +70,7 @@ public class ProductControllers {
     }
 
 
-    //Delete by category
+    //End point to Delete products by category
     @DeleteMapping(value = "/category/{category}")
     @Transactional
     public ResponseEntity<String> deleteProduct(@PathVariable String category) {
@@ -79,6 +82,7 @@ public class ProductControllers {
             throw new EntityNotFoundException("Nenhum produto encontrado na categoria " + category);
         }
     }
+    //Endpoint to get products sorted by unitsolds
     @GetMapping("/unitsold/sorted")
     public ResponseEntity<List<Products>> getProductsSortedByUnitsold() {
         List<Products> sortedProducts = repository.findByOrderByUnitsoldDesc();
