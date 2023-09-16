@@ -30,6 +30,22 @@ public class ProductControllers {
         var allProducts = repository.findAll();
         return ResponseEntity.ok(allProducts);
     }
+    //Get Products by price range
+    @GetMapping("/products/pricerange/{minPrice}/{maxPrice}")
+    public ResponseEntity<List<Products>> getProductsByPriceRange(
+            @PathVariable Float minPrice,
+            @PathVariable Float maxPrice) {
+
+        List<Products> products = repository.findByPriceRange(minPrice, maxPrice);
+
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     //Add products
     @PostMapping
     public ResponseEntity<String> addProduct(@RequestBody @Valid RequestProduct data){
