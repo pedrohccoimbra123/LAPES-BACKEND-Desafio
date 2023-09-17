@@ -1,6 +1,6 @@
 # LAPES-Desafio
 
-Bom, eu fiz o primeiro commit ainda na terça-feira com o projeto incompeto com o que eu consegui fazer naquele determinado momento. Porém, na sexta, soube que poderia entregar até Meia Noite de sábado (ops!!), então passei praticamente o sábado tentando fazer a integração dos produtos e usuarios com um carrinho de compras, lá pelas 21 horas e com uma StackTrace infinita de erros eu acabei apenas fazendo uma classe usuario, bem com a atualização de alguns métodos como ordenação por faixa de preço, produtos mais e menos vendidos e etc..
+Bom, eu fiz o primeiro commit ainda na terça-feira com o projeto incompeto com o que eu consegui fazer naquele determinado momento. Porém, na sexta, soube que poderia entregar até Meia Noite de sábado (ops!!) por problemas de commit obviamente, então passei praticamente o sábado tentando fazer a integração dos produtos e usuarios com um carrinho de compras, lá pelas 21 horas e com uma StackTrace infinita de erros eu acabei apenas fazendo uma classe usuario, bem com a atualização de alguns métodos como ordenação por faixa de preço, produtos mais e menos vendidos e etc..
 
 # O que utilizei para desenvolver este projeto
 IntelliJ IDEA 2023.2
