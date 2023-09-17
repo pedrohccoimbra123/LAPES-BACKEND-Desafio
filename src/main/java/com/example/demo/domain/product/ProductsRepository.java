@@ -22,7 +22,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
     @Query("SELECT s FROM products s WHERE s.price >= :minPrice AND s.price <= :maxPrice ORDER BY s.price DESC")
     List<Products> findByPriceRange(@Param("minPrice") Float minPrice, @Param("maxPrice") Float maxPrice);
 
-
-
+    @Query("SELECT p FROM products p WHERE p.product_name =:productName")
+    List<Products> findProductByName(@Param("productName") String productName);
 
 }

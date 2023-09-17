@@ -18,6 +18,7 @@ public class Products {
     private String product_name;
     private float price;
     private int unitsold;
+    private int quantity;
 
 
     public Products(RequestProduct requestProduct){
@@ -26,6 +27,7 @@ public class Products {
         this.product_name = requestProduct.product_name();
         this.price = requestProduct.price();
         this.unitsold = requestProduct.unitsold();
+        this.quantity = requestProduct.quantity();
 
     }
 

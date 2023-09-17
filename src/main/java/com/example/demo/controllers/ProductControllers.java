@@ -24,7 +24,7 @@ public class ProductControllers {
     private ProductsRepository repository;
 
     //Get all products
-    @GetMapping
+    @GetMapping(value = "allProducts")
     public ResponseEntity getAllProducts(){
         //Method to get all the date in Products table.
         var allProducts = repository.findAll();
@@ -44,18 +44,32 @@ public class ProductControllers {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/products/byname/{productName}")
+    public ResponseEntity<List<Products>> findProductByName(@PathVariable String productName){
+        List<Products> products = repository.findProductByName(productName);
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
     //Add products
-    @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody @Valid RequestProduct data){
+    @PostMapping(value = "addProduct")
+    public ResponseEntity<String> addProduct(@RequestBody @Valid RequestProduct data) {
+
         Products newProduct = new Products(data);
-        String message = "Produto adicionado com sucesso";
+
+
+        repository.save(newProduct);
+
+        String message = "Produto adicionado com sucesso!!!";
         return ResponseEntity.ok(message);
     }
 
     //update products
-    @PutMapping
+    @PutMapping(value = "updateProduct")
     @Transactional
     public ResponseEntity updateProduct(@RequestBody @Valid ResquestProductUpdate data){
         Optional<Products> optionalProduct = repository.findById(data.id());
@@ -65,6 +79,7 @@ public class ProductControllers {
             product.setProduct_name(data.product_name());
             product.setPrice(data.price());
             product.setUnitsold(data.unitsold());
+            product.setQuantity(data.quantity());
 
             return ResponseEntity.ok(product);
         } else {
@@ -93,9 +108,9 @@ public class ProductControllers {
         int deletedCount = repository.deleteByCategory(category);
 
         if (deletedCount > 0) {
-            return ResponseEntity.ok("Produtos na categoria " + category + " foram excluídos com sucesso.");
+            return ResponseEntity.ok("All the products in the " + category + " were successfully deleted");
         } else {
-            throw new EntityNotFoundException("Nenhum produto encontrado na categoria " + category);
+            throw new EntityNotFoundException("There is no product in this " + category);
         }
     }
     //Endpoint to get products sorted by unitsolds
