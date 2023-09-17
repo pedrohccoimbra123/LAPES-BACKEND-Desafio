@@ -22,10 +22,7 @@ public class UserControllers {
     public UserControllers(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-
-
-
+    
     @PostMapping(value = "addUser")
     public ResponseEntity<String> addUser(@RequestBody @Valid RequestUser data) {
         try {
