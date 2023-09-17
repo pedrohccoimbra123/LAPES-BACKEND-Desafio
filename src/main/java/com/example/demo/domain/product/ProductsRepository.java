@@ -24,5 +24,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
 
     @Query("SELECT p FROM products p WHERE p.product_name =:productName")
     List<Products> findProductByName(@Param("productName") String productName);
+    @Query("SELECT p FROM products  p ORDER BY p.unitsold ASC")
+    List<Products> findByOrderByUnitsoldAsc();
 
 }

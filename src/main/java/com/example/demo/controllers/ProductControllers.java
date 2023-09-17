@@ -114,9 +114,21 @@ public class ProductControllers {
         }
     }
     //Endpoint to get products sorted by unitsolds
-    @GetMapping("/unitsold/sorted")
+    @GetMapping("/unitsold/most")
     public ResponseEntity<List<Products>> getProductsSortedByUnitsold() {
         List<Products> sortedProducts = repository.findByOrderByUnitsoldDesc();
+
+        if (sortedProducts.isEmpty()) {
+            throw new EntityNotFoundException("Nenhum produto vendido encontrado");
+        } else {
+            return ResponseEntity.ok(sortedProducts);
+        }
+    }
+
+    //Getting the least sold products
+    @GetMapping("/unitsold/least")
+    public ResponseEntity<List<Products>> getProductsSortedByUnitsoldAsc() {
+        List<Products> sortedProducts = repository.findByOrderByUnitsoldAsc();
 
         if (sortedProducts.isEmpty()) {
             throw new EntityNotFoundException("Nenhum produto vendido encontrado");
