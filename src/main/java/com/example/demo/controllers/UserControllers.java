@@ -7,10 +7,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuario")
@@ -22,6 +21,14 @@ public class UserControllers {
     public UserControllers(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    @GetMapping(value = "/getUsers")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
+
+
     
     @PostMapping(value = "addUser")
     public ResponseEntity<String> addUser(@RequestBody @Valid RequestUser data) {
@@ -35,7 +42,7 @@ public class UserControllers {
             String message = "Usuário adicionado com sucesso!!!";
             return ResponseEntity.ok(message);
         } catch (Exception e) {
-            
+
             String errorMessage = "Erro ao adicionar o usuário: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
